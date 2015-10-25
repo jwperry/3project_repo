@@ -6,6 +6,10 @@ class List
   attr_reader :head
   attr_accessor :current, :previous
 
+  def initialize
+    @depth = 0
+  end
+
   # Creates new node for argument value and checks for nil head.
   # Otherwise, calls Node class .push recursive method.
   def insert(data)
@@ -24,15 +28,7 @@ class List
     if @head.nil?
       exists = false
     else
-      if data_to_find < head.data && head.left
-        exists = search(data_to_find, head.left)
-      elsif data_to_find > head.data && head.right
-        exists = search(data_to_find, head.right)
-      elsif data_to_find == head.data
-        return true
-      else
-        exists = false
-      end
+      exists = search(data_to_find, head)
     end
       return exists
   end
@@ -96,4 +92,34 @@ class List
     end
   end
 
+  # Checks for nil head, then calls .depth_search recursive
+  # method to return depth if the value exists in the tree.
+  def depth_of(data_to_find)
+    @depth = 0
+    if @head.nil?
+      return @depth
+    else
+      depth_search(data_to_find, head)
+    end
+    return @depth
+  end
+
+  # Recursive method to search for a value and return its depth.
+  def depth_search(data_to_find, node)
+    if data_to_find < node.data && node.left
+      @depth += 1
+      depth_search(data_to_find, node.left)
+    elsif data_to_find > node.data && node.right
+      @depth += 1
+      depth_search(data_to_find, node.right)
+    elsif data_to_find == node.data
+      @depth += 1
+    else
+      @depth = 0
+    end
+  end
+
+  
+
+  
 end

@@ -160,4 +160,46 @@ class ListTest < Minitest::Test
     assert_equal 4, tester.min_value
   end
 
+  def test_that_depth_returns_zero_for_empty_tree
+    tester = List.new
+    assert_equal 0, tester.depth_of(7)
+  end
+
+  def test_that_depth_of_returns_1_for_head_match
+    tester = List.new
+    tester.insert(5)
+    assert_equal 1, tester.depth_of(5)
+  end
+
+  def test_that_depth_of_returns_zero_for_missing_value
+    tester = List.new
+    tester.insert(1)
+    tester.insert(2)
+    assert_equal 0, tester.depth_of(3)
+  end
+
+  def test_that_depth_of_returns_correct_depth_with_multiple_leaves
+    tester = List.new
+    tester.insert(1)
+    tester.insert(2)
+    tester.insert(3)
+    tester.insert(4)
+    assert_equal 4, tester.depth_of(4)
+  end
+
+  def test_that_depth_of_returns_correct_depth_with_mixed_leaves
+    tester = List.new
+    tester = List.new
+    tester.insert(5)
+    tester.insert(7)
+    tester.insert(6)
+    tester.insert(3)
+    tester.insert(4)
+    tester.insert(1)
+    tester.insert(9)
+    assert_equal 3, tester.depth_of(1)
+    assert_equal 3, tester.depth_of(9)
+    assert_equal 3, tester.depth_of(4)
+    assert_equal 3, tester.depth_of(6)
+  end
 end

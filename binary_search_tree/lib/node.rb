@@ -25,5 +25,4 @@ class Node
       exit
     end
   end
-
 end
