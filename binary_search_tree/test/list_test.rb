@@ -189,7 +189,6 @@ class ListTest < Minitest::Test
 
   def test_that_depth_of_returns_correct_depth_with_mixed_leaves
     tester = List.new
-    tester = List.new
     tester.insert(5)
     tester.insert(7)
     tester.insert(6)
@@ -201,5 +200,17 @@ class ListTest < Minitest::Test
     assert_equal 3, tester.depth_of(9)
     assert_equal 3, tester.depth_of(4)
     assert_equal 3, tester.depth_of(6)
+  end
+
+  def test_that_sort_tree_returns_nil_for_empty_tree
+    tester = List.new
+    assert_equal nil, tester.sort
+  end
+
+  def test_that_sort_tree_works_with_random_data_set
+    tester = List.new
+    sample = (0..100).to_a.sample(30)
+    sample.each { | n | tester.insert(n) }
+    assert_equal sample.sort, tester.sort
   end
 end

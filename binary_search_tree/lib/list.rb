@@ -8,6 +8,7 @@ class List
 
   def initialize
     @depth = 0
+    @sorted_tree = []
   end
 
   # Creates new node for argument value and checks for nil head.
@@ -119,7 +120,27 @@ class List
     end
   end
 
-  
+  # Checks for nil head, then calls .sort_tree recursive method
+  # to sort tree.
+  def sort
+    @sorted_tree = []
+    if @head.nil?
+      return nil
+    else
+      sort_tree(head)
+    end
+    return @sorted_tree
+  end
 
-  
+  # Recursive method to return sorted array.
+  def sort_tree(node)
+    if node.left
+      @sorted_tree = sort_tree(node.left)
+    end
+    @sorted_tree << node.data
+    if node.right
+      @sorted_tree = sort_tree(node.right)
+    end
+    return @sorted_tree
+  end
 end

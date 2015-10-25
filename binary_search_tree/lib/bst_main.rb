@@ -15,7 +15,9 @@ data.each do | n |
   puts "Tree includes #{n}? #{tree.include?(n)}"
 end
 puts "Tree includes 0? #{tree.include?(0)}"
-puts "Tree includes 10? #{tree.include?(10)}"
+puts "Tree includes 11? #{tree.include?(11)}"
 puts "Tree max value: #{tree.max_value}"
 puts "Tree min value: #{tree.min_value}"
 puts "Depth of 5: #{tree.depth_of(5)}"
+puts "Depth of 6: #{tree.depth_of(6)}"
+print "Sorted tree: #{tree.sort}\n"
