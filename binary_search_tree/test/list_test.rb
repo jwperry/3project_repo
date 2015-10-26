@@ -285,4 +285,74 @@ class ListTest < Minitest::Test
     tester.insert(17)
     assert_equal 4, tester.max_depth
   end
+
+  def test_that_remove_returns_nil_for_empty_tree
+    tester = List.new
+    assert_equal nil, tester.remove(1)
+  end
+
+  def test_that_remove_returns_nil_for_value_not_in_tree
+    tester = List.new
+    tester.insert(1)
+    tester.insert(3)
+    assert_equal nil, tester.remove(2)
+  end
+
+  def test_that_remove_removes_head
+    tester = List.new
+    tester.insert(3)
+    tester.insert(2)
+    tester.insert(4)
+    tester.remove(3)
+    refute tester.head.data == 3
+  end
+
+  def test_that_remove_removes_head_and_moves_head_right_if_no_left
+    tester = List.new
+    tester.insert(5)
+    tester.insert(6)
+    tester.insert(7)
+    tester.remove(5)
+    assert tester.head.data == 6
+  end
+
+  def test_that_remove_removes_left_with_left_branch
+    tester = List.new
+    tester.insert(5)
+    tester.insert(3)
+    tester.insert(2)
+    tester.insert(4)
+    tester.remove(3)
+    assert tester.head.left.data == 2
+  end
+
+  def test_that_remove_removes_left_with_only_right_branch
+    tester = List.new
+    tester.insert(7)
+    tester.insert(5)
+    tester.insert(6)
+    tester.insert(8)
+    tester.remove(5)
+    assert tester.head.left.data == 6
+  end
+
+  def test_that_remove_removes_right_with_left_branch
+    tester = List.new
+    tester.insert(15)
+    tester.insert(17)
+    tester.insert(16)
+    tester.insert(18)
+    tester.remove(17)
+    assert tester.head.right.data == 16
+  end
+
+  def test_that_remove_removes_right_with_only_right_branch
+    tester = List.new
+    tester.insert(50)
+    tester.insert(60)
+    tester.insert(70)
+    tester.insert(40)
+    tester.remove(60)
+    assert tester.head.right.data == 70
+  end
 end

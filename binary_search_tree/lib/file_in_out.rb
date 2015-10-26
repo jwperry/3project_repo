@@ -20,6 +20,7 @@ class FileInOut
     output_file.close
   end
 
+  # Outputs data to ARGV[1] file via append.
   def appends(data)
     output_file = File.open(ARGV[1], 'a')
     output_file.write(data)

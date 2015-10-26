@@ -4,7 +4,6 @@ require 'pry'
 
 class List
   attr_reader :head
-  attr_accessor :current, :previous
 
   def initialize
     @depth = 0
@@ -54,7 +53,7 @@ class List
       return nil
     else
       if head.right
-        max_value = max_search(head.right)
+        max_value = max_search(head.right).data
       else
         max_value = head.data
       end
@@ -67,7 +66,7 @@ class List
     if node.right
       max_search(node.right)
     else
-      return node.data
+      return node
     end
   end
 
@@ -77,7 +76,7 @@ class List
       return nil
     else
       if head.left
-        min_value = min_search(head.left)
+        min_value = min_search(head.left).data
       else
         min_value = head.data
       end
@@ -90,7 +89,7 @@ class List
     if node.left
       min_search(node.left)
     else
-      return node.data
+      return node
     end
   end
 
@@ -186,16 +185,83 @@ class List
   # by comparing max left distance to max right distance from
   # given node.
   def find_max_depth(node, depth=0)
-      if node.nil?
-        return depth
+    if node.nil?
+      return depth
+    else
+      left_depth = find_max_depth(node.left, depth + 1)
+      right_depth = find_max_depth(node.right, depth + 1)
+      if left_depth > right_depth
+        return left_depth
       else
-        left_depth = find_max_depth(node.left, depth + 1)
-        right_depth = find_max_depth(node.right, depth + 1)
-        if left_depth > right_depth
-          return left_depth
-        else
-          return right_depth
-        end
+        return right_depth
       end
+    end
+  end
+
+  # Checks for empty tree, and checks if head holds the value to
+  # remove. If neither, calls methods to either remove head or
+  # remove a non-head value in the tree with recursive search.
+  def remove(value)
+    if self.include?(value)
+      if head.data == value
+        remove_head(value, head)
+      else
+        remove_value(value, head)
+      end
+    else
+      return nil
+    end
+  end
+
+  # Removes head and sets head to head.left, head.right, or
+  # nil (if empty) in that order.
+  def remove_head(value, node)
+    if node.left
+      link = max_search(node.left)
+      link.right = @head.right
+      @head = @head.left
+    elsif node.right
+      link = min_search(node.right)
+      link.left = @head.left
+      @head = @head.right
+    else
+      @head = nil
+    end
+  end
+
+  # Removes non-head value, attempts to use left branch from node
+  # first to repair tree, or right branch if no left branch.
+  # Sorry, ran out of time to refactor this one.
+  def remove_value(value, node)
+    if node.left && value < node.data
+      if node.left.data == value
+        if node.left.left
+          link = max_search(node.left.left)
+          link.right = node.left.right
+          node.left = node.left.left
+        elsif node.left.right
+          node.left = node.left.right
+        else
+          node.left = nil
+        end
+      else
+        remove_value(value, node.left)
+      end
+
+    elsif node.right && value > node.data
+      if node.right.data == value
+        if node.right.left
+          link = max_search(node.right.left)
+          link.right = node.right.right
+          node.right = node.right.left
+        elsif node.right.right
+          node.right = node.right.right
+        else
+          node.right = nil
+        end
+      else
+        remove_value(value, node.right)
+      end
+    end
   end
 end
