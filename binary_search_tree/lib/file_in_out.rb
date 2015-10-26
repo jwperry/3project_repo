@@ -13,10 +13,17 @@ class FileInOut
     return input
   end
 
-  # # Outputs data to ARGV[1] file.
-  # def writes(data)
-  #   output_file = File.open(ARGV[1], 'w')
-  #   output_file.write(data)
-  #   output_file.close
-  # end
+  # Outputs data to ARGV[1] file.
+  def writes(data)
+    output_file = File.open(ARGV[1], 'w')
+    output_file.write(data)
+    output_file.close
+  end
+
+  def appends(data)
+    output_file = File.open(ARGV[1], 'a')
+    output_file.write(data)
+    output_file.close
+  end
+
 end

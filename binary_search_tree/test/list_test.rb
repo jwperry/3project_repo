@@ -98,7 +98,7 @@ class ListTest < Minitest::Test
 
   def test_that_max_search_identifies_empty_tree
     tester = List.new
-    assert_equal "Empty!", tester.max_value
+    assert_equal nil, tester.max_value
   end
 
   def test_that_max_search_finds_max_when_head_is_max
@@ -130,7 +130,7 @@ class ListTest < Minitest::Test
 
   def test_that_min_search_identifies_empty_tree
     tester = List.new
-    assert_equal "Empty!", tester.min_value
+    assert_equal nil, tester.min_value
   end
 
   def test_that_min_search_finds_min_when_head_is_min
@@ -212,5 +212,77 @@ class ListTest < Minitest::Test
     sample = (0..100).to_a.sample(30)
     sample.each { | n | tester.insert(n) }
     assert_equal sample.sort, tester.sort
+  end
+
+  def test_that_leaves_returns_nil_for_empty_tree
+    tester = List.new
+    assert_equal nil, tester.leaves
+  end
+
+  def test_that_leaves_is_correct_with_one_leaf
+    tester = List.new
+    tester.insert(2)
+    tester.insert(1)
+    assert_equal 1, tester.leaves
+  end
+
+  def test_that_leaves_is_correct_with_leaves_on_left_and_right
+    tester = List.new
+    tester.insert(2)
+    tester.insert(1)
+    tester.insert(3)
+    assert_equal 2, tester.leaves
+  end
+
+  def test_that_leaves_is_correct_with_two_leaves_on_each_side
+    tester = List.new
+    tester.insert(5)
+    tester.insert(3)
+    tester.insert(2)
+    tester.insert(4)
+    tester.insert(7)
+    tester.insert(8)
+    tester.insert(6)
+    assert_equal 4, tester.leaves
+  end
+
+  def test_that_max_depth_returns_nil_for_empty_tree
+    tester = List.new
+    assert_equal nil, tester.max_depth
+  end
+
+  def test_that_max_depth_returns_one_for_head_only
+    tester = List.new
+    tester.insert(5)
+    assert_equal 1, tester.max_depth
+  end
+
+  def test_that_max_depth_recognizes_fork_from_higher_branch
+    tester = List.new
+    tester.insert(6)
+    tester.insert(2)
+    tester.insert(1)
+    tester.insert(3)
+    tester.insert(4)
+    tester.insert(5)
+    assert_equal 5, tester.max_depth
+  end
+
+  def test_that_max_depth_recognizes_all_right
+    tester = List.new
+    tester.insert(10)
+    tester.insert(11)
+    tester.insert(12)
+    assert_equal 3, tester.max_depth
+  end
+
+  def test_that_max_depth_recognizes_right_with_left
+    tester = List.new
+    tester.insert(10)
+    tester.insert(15)
+    tester.insert(14)
+    tester.insert(16)
+    tester.insert(17)
+    assert_equal 4, tester.max_depth
   end
 end

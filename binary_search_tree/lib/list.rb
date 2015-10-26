@@ -9,6 +9,7 @@ class List
   def initialize
     @depth = 0
     @sorted_tree = []
+    @leaves = 0
   end
 
   # Creates new node for argument value and checks for nil head.
@@ -50,7 +51,7 @@ class List
   # Checks for nil head, then calls .max_search recursive method.
   def max_value
     if @head.nil?
-      return "Empty!"
+      return nil
     else
       if head.right
         max_value = max_search(head.right)
@@ -73,7 +74,7 @@ class List
   # Checks for nil head, then calls .min_search recursive method.
   def min_value
     if @head.nil?
-      return "Empty!"
+      return nil
     else
       if head.left
         min_value = min_search(head.left)
@@ -142,5 +143,59 @@ class List
       @sorted_tree = sort_tree(node.right)
     end
     return @sorted_tree
+  end
+
+  # Checks for nil head, then calls .find_leaves recursive method
+  # to locate nodes with no new left/right branches.
+  def leaves
+    @leaves = 0
+    if @head.nil?
+      return nil
+    else
+      find_leaves(head)
+    end
+    return @leaves
+  end
+
+  # Recursive method to return leaf count.
+  def find_leaves(node)
+    if node.left
+      @leaves = find_leaves(node.left)
+    end
+    if node.right
+      @leaves = find_leaves(node.right)
+    end
+    if node.left.nil? && node.right.nil?
+      @leaves += 1
+    end
+    return @leaves
+  end
+
+  # Checks for nil head, then calls .find_max_depth recursive method
+  # to find greatest distance from head to a leaf.
+  def max_depth
+    if @head.nil?
+      return nil
+    else
+      max_depth = find_max_depth(head)
+    end
+    return max_depth
+  end
+
+  # Recursive method to find greatest distance from head to a leaf
+  # by comparing max left distance to max right distance from
+  # given node.
+  def find_max_depth(node, depth=0)
+      if node.nil?
+        return depth
+      else
+        left_depth = find_max_depth(node.left, depth + 1)
+        right_depth = find_max_depth(node.right, depth + 1)
+        if left_depth > right_depth
+          return left_depth
+        else
+          return right_depth
+        end
+      end
   end
 end
